@@ -1,0 +1,14 @@
+package com.spring.mybatics.service.goo;
+
+import com.haier.result.ServiceResult;
+
+public interface Mp4Service {
+
+	ServiceResult getMp4_category();
+
+	ServiceResult findMp4_data(String type);
+
+	ServiceResult findMp4Novel();
+
+
+}

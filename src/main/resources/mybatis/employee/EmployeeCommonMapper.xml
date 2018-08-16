@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.mybatics.dao.IUserDao">
+	<!-- =========================================================== -->
+	<!-- 定义resultMap -->
+	<!-- =========================================================== -->
+	<resultMap id="BaseResultMap" type="employee">
+	    <id column="id" property="id" jdbcType="INTEGER" />
+	    <result column="userCode" property="userCode" jdbcType="VARCHAR" />
+	    <result column="userName" property="userName" jdbcType="VARCHAR" />
+	    <result column="passWord" property="passWord" jdbcType="VARCHAR" />
+	    <result column="phoneNumber" property="phoneNumber" jdbcType="VARCHAR"/>
+	    <result column="roles" property="roles" jdbcType="VARCHAR"/>
+	    <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+	    <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP" />
+   </resultMap>
+	
+	<!-- =========================================================== -->
+	<!-- 一些公共变量设置 -->
+	<!-- =========================================================== -->
+	<!-- 查询的所有列 -->
+	<sql id="Base_Column_List" >
+    	id,userCode,phoneNumber,userName,roles,email,realMoney,integral,storeCode,storeName,idCard,createTime,updateTime
+  	</sql>
+	
+	<!-- 分页查询的公共变量 -->
+	<sql id="pagination_Tail">
+	<![CDATA[
+		limit #{pageCond.firstResult},#{pageCond.pageSize}
+	]]>
+	</sql>
+	
+	<!-- =========================================================== -->
+	<!-- CommonDao中的dao实现类 -->
+	<!-- =========================================================== -->
+	<!-- 根据主键查询实体类的方法 -->
+	<select id="findById" resultMap="BaseResultMap"
+		parameterType="Long">
+		select <include refid="Base_Column_List"/>
+		from isales_app.t_isales_app_version
+		where id = #{id}
+	</select>
+	
+	<!-- 查询此实体表中所有数据的数量 -->
+	<select id="count" resultType="long">
+		select count(1) 
+		from isales_app.t_isales_app_version
+	</select>
+	
+	<!-- 实体的保存法方法 -->
+	<insert id="save" parameterType="hair_employee"  useGeneratedKeys="true" keyProperty="id" >
+		insert into  hair_employee
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="userCode!=null">
+				userCode ,
+			</if>
+			<if test="userName!=null">
+				userName ,
+			</if>
+			<if test="passWord!=null">
+				passWord ,
+			</if>
+			<if test="roles!=null">
+				roles ,
+			</if>
+			<if test="email!=null">
+				email ,
+			</if>
+			<if test="phoneNumber!=null">
+				phoneNumber ,
+			</if>
+			<if test="realMoney!=null">
+				realMoney ,
+			</if>
+			<if test="integral!=null">
+				integral ,
+			</if>
+			<if test="storeCode!=null">
+				storeCode ,
+			</if>
+			<if test="storeName!=null">
+				storeName ,
+			</if>
+			<if test="updateTime!=null">
+				updateTime
+			</if>
+		</trim>
+		VALUES
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="userCode!=null">
+				#{userCode}	,
+			</if>
+			<if test="userName!=null">
+				#{userName}	,
+			</if>
+			<if test="passWord!=null">
+				#{passWord} ,
+			</if>
+			<if test="roles!=null">
+				#{roles} ,
+			</if>
+			<if test="email!=null">
+				#{email} ,
+			</if>
+			<if test="phoneNumber!=null">
+				#{phoneNumber} ,
+			</if>
+			<if test="realMoney!=null">
+				#{realMoney} ,
+			</if>
+			<if test="integral!=null">
+				#{integral}	,
+			</if>
+			<if test="storeCode!=null">
+				#{storeCode} ,
+			</if>
+			<if test="storeName!=null">
+				#{storeName}  ,
+			</if>
+			<if test="updateTime!=null">
+				#{updateTime}
+			</if>
+		</trim>
+	</insert>
+	
+	<!-- 实体的更新方法 -->
+	<update id="update" parameterType="hair_employee">
+		update hair_employee
+		<set>
+			<if test="userCode!=null">
+				userCode = #{userCode},
+			</if>
+			<if test="userName!=null">
+				userName = #{userName},
+			</if>
+			<if test="passWord!=null">
+				passWord = #{passWord},
+			</if>
+			<if test="email!=null">
+				email = #{email},
+			</if>
+			<if test="phoneNumber!=null">
+				phoneNumber = #{phoneNumber},
+			</if>
+			<if test="roles!=null">
+				roles = #{roles},
+			</if>
+			<if test="updateTime!=null">
+				updateTime = #{updateTime},
+			</if>
+			<if test="realMoney!=null">
+				realMoney = #{realMoney},
+			</if>
+			<if test="integral!=null">
+				integral = #{integral},
+			</if>
+			<if test="salary!=null">
+				salary = #{salary},
+			</if>
+			<if test="jixiao!=null">
+				jixiao = #{jixiao},
+			</if>
+			<if test="storeCode!=null">
+				storeCode = #{storeCode},
+			</if>
+			<if test="storeName!=null">
+				storeName = #{storeName},
+			</if>
+			<if test="idCard!=null">
+				idCard = #{idCard},
+			</if>
+			<!-- <if test="isVip!=null">
+				isVip = #{isVip}
+			</if> -->
+		</set>
+		where id = #{id}
+	</update>	
+	
+	<!-- 按照ID主键删除一条记录的功能 -->
+	<delete id="delete" parameterType="Integer">
+		delete from hair_employee
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据参数查询分页查询所有的对象内容 -->
+	<select id="findCountByParams" resultType="integer" >
+		select count(1)
+		from isales_app.t_isales_app_version
+		where 1=1
+	</select>
+</mapper>

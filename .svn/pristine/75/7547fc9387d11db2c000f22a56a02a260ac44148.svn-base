@@ -1,0 +1,51 @@
+package com.haier.kj.controller.goo;
+
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.haier.result.ServiceResult;
+import com.spring.mybatics.service.goo.Mp4Service;
+
+@Controller
+@RequestMapping(value="/mp4Controller")
+public class Mp4Controller {
+	
+	@Resource
+	private Mp4Service mp4Service;
+	
+	
+	@RequestMapping(value="/getMp4category")
+	@ResponseBody
+	public Object getMp4_category(){
+		ServiceResult serviceResult = new ServiceResult();
+		serviceResult = mp4Service.getMp4_category();
+		return serviceResult;
+	}
+	
+	
+	@RequestMapping(value="/findMp4Data")
+	@ResponseBody
+	public Object findMp4_data(String type){
+		ServiceResult serviceResult = new ServiceResult();
+		serviceResult = mp4Service.findMp4_data(type);
+		return serviceResult;
+	}
+	
+	
+	@RequestMapping(value="/findMp4Novel")
+	@ResponseBody
+	public Object findMp4_novel(){
+		ServiceResult serviceResult = new ServiceResult();
+		serviceResult = mp4Service.findMp4Novel();
+		return serviceResult;
+	}
+	
+	
+
+}

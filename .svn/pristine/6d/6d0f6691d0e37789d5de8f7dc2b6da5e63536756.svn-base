@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.spring.mybatics.dao.IUserDao" >
+  
+    <!-- 登录 -->
+	<select id="findByParams" resultMap="BaseResultMap" >
+		 select id,userCode,phoneNumber,userName,roles
+	     from employee
+	     where phoneNumber=#{entity.phoneNumber} and passWord=#{entity.passWord}
+	     limit 1
+	</select>
+	
+	<!-- 查询客户数量 -->
+	<select id="findCount" resultType="integer">
+		select count(1) from user_Se
+		where 1=1
+		<if test="employee.userName!=null">
+		  and username like CONCAT('%',#{employee.userName},'%')
+		</if>
+	</select>
+	
+	<!--查客户列表  --> 
+	<select id="findListEmpByStoreCode" resultType="java.util.Map">
+		select username,create_date,recharge_money,recharge_money_endDate,recharge_money_update_Date,tuijianCode,uid
+		from user_Se
+		where 1=1 
+		<if test="employee.userName!=null">
+		  and username like CONCAT('%',#{employee.userName},'%')
+		</if>
+		order by create_date desc limit #{pageCond.currentPage},#{pageCond.pageSize}
+	</select>
+	
+	<!--设置更新时间  -->
+	<update id="updateCustomerDateDao">
+	   update user_Se set recharge_money_endDate=#{endDate},recharge_money_update_Date=now() where username=#{username}
+	</update>
+	
+	<!--删除用户  -->
+	<delete id="deleteCustomersByphoneDao">
+		delete from user_Se where username=#{username}
+	</delete>
+	
+	
+	<!--重置手机  -->
+	<update id="resertPhoneCustomersByphoneDao">
+		update user_Se set  uid=''  where username=#{username}
+	</update>
+	
+	
+	<!--重置密码  -->
+	<update id="resertPwdCustomersByphoneDao">
+		update user_Se set  password='123456' where username=#{username}
+	</update>
+    
+</mapper>

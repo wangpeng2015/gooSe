@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.spring.mybatics.dao.IStoresDao" >
+  
+  	<resultMap id="storeListMap" type="hair_stores" >
+	    <result column="store_code" property="store_code" jdbcType="VARCHAR" />
+	    <result column="store_name" property="store_name" jdbcType="VARCHAR" />
+    </resultMap>
+    
+	<!-- 实体的更新方法 -->
+	<update id="updateStoresDao">
+		update hair_stores
+		<set>
+			<if test="danju_price!=null">
+				customer_money = #{danju_price}
+			</if>
+		</set>
+		where store_code = #{danju_stores_code}
+	</update>
+	
+	<select id="finaAllStores" resultMap="storeListMap">
+		select store_code,store_name from hair_stores
+	</select>
+
+</mapper>

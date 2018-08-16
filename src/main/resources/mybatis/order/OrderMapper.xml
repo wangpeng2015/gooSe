@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.spring.mybatics.dao.IOrderDao" >
+
+	<!-- 查询的所有变量判断 -->
+	<sql id="searchConditions">
+		<if test="entity.danju_code!=null">and danju_code like CONCAT('%',#{entity.danju_code},'%')</if>
+		<if test="entity.danju_name!=null">and danju_name like CONCAT('%',#{entity.danju_name},'%')</if>
+		<if test="entity.danju_applicant!=null">and danju_applicant like CONCAT('%',#{entity.danju_applicant},'%')</if>
+		<if test="entity.danju_isConfirm!=null">and danju_isConfirm=#{entity.danju_isConfirm}</if>
+		<if test="entity.customer_phone!=null">and customer_phone like CONCAT('%',#{entity.customer_phone},'%')</if>
+		<!-- java.util.Date create_time has been ignored!!! -->
+		<!-- java.util.Date update_time has been ignored!!! -->
+		<!-- java.util.Date app_upgrade_time has been ignored!!! -->
+		<!-- <if test="entity.status!=null">and status like CONCAT('%',#{entity.status},'%')</if>
+		<if test="entity.remark!=null">and remark like CONCAT('%',#{entity.remark},'%')</if> -->
+	</sql>
+  
+    <!-- 查询此实体表中所有数据的数量 -->
+	<!-- <select id="getAllOrderDAO" resultMap="danjuResultMap">
+		select danju_id,danju_name,danju_price,danju_applicant,danju_deal,danju_isConfirm,danju_invalid,danju_isVip,
+		customer_phone,danju_storesCode,danju_createTime,danju_dealTime
+		from hair_danju where danju_storesCode=#{storeCode} ORDER BY danju_createTime DESC
+	</select> -->
+	
+	
+	<!-- 实体的更新方法 -->
+	<update id="updateDanjuConfirm" parameterType="integer">
+		update hair_danju
+			set danju_isConfirm = '已完成'
+		where 1=1
+		and danju_id = #{danju_id}
+	</update>	
+	
+	
+	<!-- 实体的更新方法 -->
+	<update id="updateInvalidOrderDao" parameterType="integer">
+		update hair_danju
+		<set>
+			 danju_invalid = '1'
+		</set>
+		where danju_id = #{danju_id}
+	</update>	
+	
+	<select id="getOrderByID" parameterType="integer" resultMap="danjuResultMap">
+		select danju_name,danju_message,danju_isVip,customer_phone,customer_name,
+		danju_price,danju_applicant,danju_applicant_id,
+		danju_isConfirm,danju_invalid,danju_storesCode,danju_createTime
+		from hair_danju
+		where 1=1
+		and danju_id = #{danju_id}
+	</select>
+	
+	<!--根据门店编码获取门店销量信息  -->
+	<select id="getStoreOrderInfoDao" resultType="java.util.HashMap">
+		SELECT income.store_actMoney,income.store_actOrderMoney,COUNT(danju.danju_id) orderCount
+		FROM  hair_store_income income ,hair_danju danju 
+		WHERE 1=1
+		<if test="storeCode!=null">
+			and income.store_code = #{storeCode} and danju.danju_storesCode= #{storeCode}
+		</if>
+	</select>
+	
+	<!--店员获取自己的订单信息  -->
+	<select id="getEmpOrderInfoDao" resultType="java.util.HashMap">
+		SELECT COUNT(danju.danju_id) orderCount,SUM(danju.danju_price) orderPEICE FROM hair_danju danju 
+		WHERE 1=1
+		and danju_applicant_id=#{userId} AND danju_storesCode=#{storeCode} order by danju_createTime desc
+	</select>
+	
+	<!--店员获取订单列表  -->
+	<select id="getEmpListDao" resultMap="danjuResultMap">
+		select danju_id,danju_name,danju_price,danju_applicant,danju_deal,danju_isConfirm,danju_invalid,danju_isVip,
+		customer_phone,danju_storesCode,danju_createTime,danju_dealTime
+		from hair_danju where 1=1 
+		and danju_storesCode=#{storeCode} AND danju_applicant_id=#{userId}
+		ORDER BY danju_createTime DESC 
+	</select>
+	
+	<!--根据符合的查询条件获取订单信息  -->
+	<select id="getOrderLisyBuanyParamDao" resultMap="danjuResultMap">
+		select danju_id,danju_name,danju_price,danju_applicant,danju_deal,danju_isConfirm,danju_invalid,danju_isVip,
+		customer_phone,danju_storesCode,danju_createTime,danju_dealTime
+		from hair_danju where 1=1
+		and danju_applicant like CONCAT('%',#{entity.danju_applicant},'%') or customer_phone like CONCAT('%',#{entity.customer_phone},'%')
+		and danju_storesCode=#{entity.danju_storesCode}
+		ORDER BY danju_createTime DESC 
+	</select>
+
+</mapper>

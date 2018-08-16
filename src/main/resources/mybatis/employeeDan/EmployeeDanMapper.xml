@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.spring.mybatics.dao.IEmployeeDanDao" >
+  
+  <!-- 实体的保存法方法 -->
+	<insert id="saveEmployeeDanDao" parameterType="hair_employee_dan" keyProperty="empDan_id">
+		insert into  hair_employee_dan
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="danju_applicant_id!=null">
+				employee_id ,
+			</if>
+			<if test="employee_danjuCode!=null">
+				employee_danjuCode ,
+			</if>
+			<if test="danju_price!=null">
+				employee_money ,
+			</if>
+				employee_createTime
+		</trim>
+		VALUES
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="danju_applicant_id!=null">
+				#{danju_applicant_id}	,
+			</if>
+			<if test="employee_danjuCode!=null">
+				#{employee_danjuCode}	,
+			</if>
+			<if test="danju_price!=null">
+				#{danju_price}	,
+			</if>
+				NOW()
+		</trim>
+	</insert>
+	
+	<!-- 获得25天前的那一天的客户 以及订单信息-->
+	<select id="get25DaysCustomerOrdersDao" resultType="java.util.HashMap">
+		select  customer_name,customer_phoneNumber,employee_money,employee_createTime,customer_address,danju_message
+		from emp25dayscustomerlist list
+		where danju_storesCode=#{storeCode} and danju_applicant_id=#{applicant_id}
+	</select>
+  
+</mapper>

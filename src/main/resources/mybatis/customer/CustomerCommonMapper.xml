@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.mybatics.dao.ICustomerDAO">
+	<!-- =========================================================== -->
+	<!-- 定义resultMap -->
+	<!-- =========================================================== -->
+	<resultMap id="customerResultMap" type="hair_customers" >
+	    <id column="customer_id" property="customer_id" jdbcType="BIGINT" />
+	    <result column="customer_name" property="customer_name" jdbcType="VARCHAR" />
+	    <result column="customer_password" property="customer_password" jdbcType="VARCHAR" />
+	    <result column="customer_code" property="customer_code" jdbcType="VARCHAR" />
+	    <result column="customer_phoneNumber" property="customer_phoneNumber" jdbcType="VARCHAR" />
+	    <result column="customer_address" property="customer_address" jdbcType="VARCHAR"/>
+	    <result column="customer_money" property="customer_money" jdbcType="DECIMAL"/>
+	    <result column="customer_isVip" property="customer_isVip" jdbcType="VARCHAR"/>
+	    <result column="customer_integral" property="customer_integral" jdbcType="DECIMAL" />
+	    <result column="customer_storeCode" property="customer_storeCode" jdbcType="VARCHAR" /><!--门店编码外键  -->
+	    <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+	    <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP" />
+   </resultMap>
+	
+	<!-- =========================================================== -->
+	<!-- 一些公共变量设置 -->
+	<!-- =========================================================== -->
+	<!-- 查询的所有列 -->
+	<sql id="Base_Column_List" >
+    	customer_id,customer_name,customer_code,customer_phoneNumber,customer_address,customer_money,customer_isVip,customer_integral,customer_storeCode,updateTime
+  	</sql>
+	
+	<!-- 分页查询的公共变量 -->
+	<sql id="pagination_Tail">
+	<![CDATA[
+		limit #{pageCond.firstResult},#{pageCond.pageSize}
+	]]>
+	</sql>
+	
+	<!-- =========================================================== -->
+	<!-- CommonDao中的dao实现类 -->
+	<!-- =========================================================== -->
+	<!-- 根据主键查询实体类的方法 -->
+	<select id="findById" resultMap="customerResultMap"
+		parameterType="Long">
+		select <include refid="Base_Column_List"/>
+		from isales_app.t_isales_app_version
+		where id = #{id}
+	</select>
+	
+	<!-- 查询此实体表中所有数据的数量 -->
+	<select id="count" resultType="long">
+		select count(1) 
+		from isales_app.t_isales_app_version
+	</select>
+	
+	<!-- 实体的保存法方法 -->
+	<insert id="save" parameterType="hair_customers"  useGeneratedKeys="true" keyProperty="customer_id" >
+		insert into  hair_customers
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="customer_name!=null">
+				customer_name ,
+			</if>
+			<if test="customer_password!=null">
+				customer_password ,
+			</if>
+			<if test="customer_code!=null">
+				customer_code ,
+			</if>
+			<if test="customer_phoneNumber!=null">
+				customer_phoneNumber ,
+			</if>
+			<if test="customer_address!=null">
+				customer_address ,
+			</if>
+			<if test="customer_money!=null">
+				customer_money ,
+			</if>
+			<if test="customer_isVip!=null">
+				customer_isVip ,
+			</if>
+			<if test="customer_integral!=null">
+				customer_integral ,
+			</if>
+			<if test="customer_storeCode!=null">
+				customer_storeCode ,
+			</if>
+			<if test="updateTime!=null">
+				updateTime 
+			</if>
+		</trim>
+		VALUES
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="customer_name!=null">
+				#{customer_name} ,
+			</if>
+			<if test="customer_password!=null">
+				#{customer_password}  ,
+			</if>
+			<if test="customer_code!=null">
+				#{customer_code} ,
+			</if>
+			<if test="customer_phoneNumber!=null">
+				#{customer_phoneNumber}	,
+			</if>
+			<if test="customer_address!=null">
+				#{customer_address} ,
+			</if>
+			<if test="customer_money!=null">
+				#{customer_money} ,
+			</if>
+			<if test="customer_isVip!=null">
+				#{customer_isVip} ,
+			</if>
+			<if test="customer_integral!=null">
+				#{customer_integral} ,
+			</if>
+			<if test="customer_storeCode!=null">
+				#{customer_storeCode} ,
+			</if>
+			<if test="updateTime!=null">
+				#{updateTime} 
+			</if>
+		</trim>
+	</insert>
+	
+	<!-- 实体的更新方法 -->
+	<update id="update" parameterType="hair_customers">
+		update hair_danju
+		<set>
+			<if test="danju_isConfirm!=null">
+				danju_isConfirm = #{danju_isConfirm},
+			</if>
+			<if test="danju_message!=null">
+				danju_message = #{danju_message},
+			</if>
+			<if test="danju_price!=null">
+				danju_applicant = #{danju_applicant},
+			</if>
+			<if test="danju_applicant!=null">
+				danju_applicant = #{danju_applicant},
+			</if>
+			<if test="danju_applicant_id!=null">
+				danju_applicant_id = #{danju_applicant_id},
+			</if>
+			<if test="roles!=null">
+				roles = #{roles},
+			</if>
+			<if test="updateTime!=null">
+				updateTime = #{updateTime},
+			</if>
+			<if test="realMoney!=null">
+				realMoney = #{realMoney},
+			</if>
+			<if test="integral!=null">
+				integral = #{integral},
+			</if>
+			<if test="salary!=null">
+				salary = #{salary},
+			</if>
+			<if test="jixiao!=null">
+				jixiao = #{jixiao},
+			</if>
+			<if test="storeID!=null">
+				storeID = #{storeID},
+			</if>
+			<if test="storeName!=null">
+				storeName = #{storeName},
+			</if>
+			<if test="idCard!=null">
+				idCard = #{idCard},
+			</if>
+			<if test="isVip!=null">
+				isVip = #{isVip},
+			</if>
+		</set>
+		where danju_id = #{danju_id}
+	</update>	
+	
+	<!-- 按照ID主键删除一条记录的功能 -->
+	<delete id="delete" parameterType="Integer">
+		delete from user_t
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据参数查询分页查询所有的对象内容 -->
+	<select id="findByParams" resultMap="customerResultMap" >
+		 select id,userCode,phoneNumber,userName,roles,email
+	     from user_t
+	     where userName=#{entity.userName} and passWord=#{entity.passWord}
+	</select>
+	<!-- 根据参数查询分页查询所有的对象内容 -->
+	<select id="findCountByParams" resultType="integer" >
+		select count(1)
+		from isales_app.t_isales_app_version
+		where 1=1
+	</select>
+</mapper>

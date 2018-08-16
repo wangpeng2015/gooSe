@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.mybatics.dao.IEmployeeDanDao">
+	<!-- =========================================================== -->
+	<!-- 定义resultMap -->
+	<!-- =========================================================== -->
+	<resultMap id="employeedanResultMap" type="hair_employee_dan" >
+	    <id column="empDan_id" property="empDan_id" jdbcType="BIGINT" />
+	    <result column="employee_id" property="employee_id" jdbcType="BIGINT" />
+	    <result column="employee_danjuCode" property="employee_danjuCode" jdbcType="BIGINT" />
+	    <result column="employee_money" property="employee_money" jdbcType="DECIMAL" />
+	    <result column="employee_createTime" property="employee_createTime" jdbcType="TIMESTAMP"/>
+   </resultMap>
+	
+	<!-- =========================================================== -->
+	<!-- 一些公共变量设置 -->
+	<!-- =========================================================== -->
+	<!-- 查询的所有列 -->
+	<sql id="Base_Column_List" >
+    	empDan_id,employee_id,employee_danjuCode,employee_money,employee_createTime
+  	</sql>
+	
+	<!-- 分页查询的公共变量 -->
+	<sql id="pagination_Tail">
+	<![CDATA[
+		limit #{pageCond.firstResult},#{pageCond.pageSize}
+	]]>
+	</sql>
+	
+	<!-- =========================================================== -->
+	<!-- CommonDao中的dao实现类 -->
+	<!-- =========================================================== -->
+	<!-- 根据主键查询实体类的方法 -->
+	<select id="findById" resultMap="employeedanResultMap"
+		parameterType="Long">
+		select <include refid="Base_Column_List"/>
+		from isales_app.t_isales_app_version
+		where id = #{id}
+	</select>
+	
+	<!-- 查询此实体表中所有数据的数量 -->
+	<select id="count" resultType="long">
+		select count(1) 
+		from isales_app.t_isales_app_version
+	</select>
+	
+	
+	<!-- 实体的更新方法 -->
+	<update id="update" parameterType="hair_customers">
+		update hair_danju
+		<set>
+			<if test="danju_isConfirm!=null">
+				danju_isConfirm = #{danju_isConfirm},
+			</if>
+			<if test="danju_message!=null">
+				danju_message = #{danju_message},
+			</if>
+			<if test="danju_price!=null">
+				danju_applicant = #{danju_applicant},
+			</if>
+			<if test="danju_applicant!=null">
+				danju_applicant = #{danju_applicant},
+			</if>
+			<if test="danju_applicant_id!=null">
+				danju_applicant_id = #{danju_applicant_id},
+			</if>
+			<if test="roles!=null">
+				roles = #{roles},
+			</if>
+			<if test="updateTime!=null">
+				updateTime = #{updateTime},
+			</if>
+			<if test="realMoney!=null">
+				realMoney = #{realMoney},
+			</if>
+			<if test="integral!=null">
+				integral = #{integral},
+			</if>
+			<if test="salary!=null">
+				salary = #{salary},
+			</if>
+			<if test="jixiao!=null">
+				jixiao = #{jixiao},
+			</if>
+			<if test="storeID!=null">
+				storeID = #{storeID},
+			</if>
+			<if test="storeName!=null">
+				storeName = #{storeName},
+			</if>
+			<if test="idCard!=null">
+				idCard = #{idCard},
+			</if>
+			<if test="isVip!=null">
+				isVip = #{isVip},
+			</if>
+		</set>
+		where danju_id = #{danju_id}
+	</update>	
+	
+	<!-- 按照ID主键删除一条记录的功能 -->
+	<delete id="delete" parameterType="Integer">
+		delete from user_t
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据参数查询分页查询所有的对象内容 -->
+	<select id="findByParams" resultMap="employeedanResultMap" >
+		 select id,userCode,phoneNumber,userName,roles,email
+	     from user_t
+	     where userName=#{entity.userName} and passWord=#{entity.passWord}
+	</select>
+	<!-- 根据参数查询分页查询所有的对象内容 -->
+	<select id="findCountByParams" resultType="integer" >
+		select count(1)
+		from isales_app.t_isales_app_version
+		where 1=1
+	</select>
+</mapper>

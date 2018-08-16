@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.spring.mybatics.dao.goo.GooDAO" >
+
+	<select id="findUserMsgDao" parameterType="string" resultType="java.util.Map">
+		SELECT uu.username,uu.recharge_money_endDate,uu.recharge_money,uu.create_date,TIMESTAMPDIFF(MINUTE,NOW(),uu.`recharge_money_endDate`) as mins,uid
+		from user_Se uu
+		where 1=1
+		and	uu.username=#{name} and uu.password=#{passwd}
+		and flag=0 
+		limit 1
+    </select>
+    
+    
+    <select id="findUserByName" parameterType="string" resultType="java.util.Map">
+		SELECT id from user_Se 
+		where 1=1
+		and username=#{name}
+    </select>
+    
+    <insert id="saveSignUserMsgDao" parameterType="string">
+    	insert into user_Se (username,password,tuijianCode,create_date,recharge_money_endDate) values(#{name},#{passwd},#{tuijianCode},NOW(),DATE_ADD(NOW(),INTERVAL 30 MINUTE))
+    </insert>
+    
+    
+    <insert id="saveIosSignUserMsgDao" parameterType="string">
+    	insert into user_Se (username,password,uid,tuijianCode,create_date,recharge_money_endDate) values(#{name},#{passwd},#{uid},#{tuijianCode},NOW(),DATE_ADD(NOW(),INTERVAL 30 MINUTE))
+    </insert>
+    
+    
+    <update id="updateUid" parameterType="string">
+    	update user_Se set uid=#{uid} where username=#{name}
+    </update>
+    
+    
+     <select id="getLBMessageDao" resultType="java.util.Map">
+		SELECT czdl,shfu,fwsj,tjm,byzd,skdz from lb_msg
+    </select>
+    
+    <select id="isPhoneInLangBoDao" resultType="integer">
+		SELECT id from user_Se where username = #{phone}
+    </select>
+    
+    
+    <select id="findLatestVersionDao" resultType="java.util.Map">
+		SELECT version,versionUrl,appVersion from version where version = #{version}
+    </select>
+
+</mapper>

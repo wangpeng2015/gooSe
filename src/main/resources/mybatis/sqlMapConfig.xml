@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	    <settings>
+		<setting name="cacheEnabled" value="true" />
+		<setting name="lazyLoadingEnabled" value="true" />
+		<setting name="multipleResultSetsEnabled" value="true" />
+		<setting name="useColumnLabel" value="true" />
+		<setting name="useGeneratedKeys" value="false" />
+		<setting name="autoMappingBehavior" value="PARTIAL" />
+		<setting name="defaultExecutorType" value="SIMPLE" />
+		<!-- <setting name="defaultExecutorType" value="BATCH" /> -->
+		<setting name="defaultStatementTimeout" value="25000" />
+		<setting name="safeRowBoundsEnabled" value="false" />
+		<setting name="mapUnderscoreToCamelCase" value="false" />
+		<setting name="localCacheScope" value="SESSION" />
+		<setting name="jdbcTypeForNull" value="OTHER" />
+		<setting name="jdbcTypeForNull" value="NULL" />
+		<setting name="lazyLoadTriggerMethods" value="equals,clone,hashCode,toString" />
+	</settings>
+	
+	<typeAliases>
+		<typeAlias alias="employee" type="com.spring.mybatics.domain.goo.Employee"/>
+		<typeAlias alias="hair_employee" type="com.spring.mybatics.domain.Hair_customers"/>
+		<typeAlias alias="hair_stores" type="com.spring.mybatics.domain.Hair_stores"/>
+		<typeAlias alias="hair_danju" type="com.spring.mybatics.domain.Hair_danju"/>
+		<typeAlias alias="hairCutType" type="com.spring.mybatics.domain.HairCutType"/>
+		<typeAlias alias="hair_customers" type="com.spring.mybatics.domain.Hair_customers"/>
+		<typeAlias alias="hair_employee_dan" type="com.spring.mybatics.domain.Hair_employee_dan"/>
+		<typeAlias alias="hair_store_income" type="com.spring.mybatics.domain.Hair_store_income"/>
+	</typeAliases>
+	
+</configuration>

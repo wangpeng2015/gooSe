@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.mybatics.dao.IStoresDao">
+	<!-- =========================================================== -->
+	<!-- 定义resultMap -->
+	<!-- =========================================================== -->
+	<resultMap id="storesResultMap" type="hair_stores" >
+	    <id column="store_id" property="store_id" jdbcType="BIGINT" />
+	    <result column="store_code" property="store_code" jdbcType="VARCHAR" />
+	    <result column="store_name" property="store_name" jdbcType="VARCHAR" />
+	    <result column="store_phone" property="store_phone" jdbcType="VARCHAR" />
+	    <result column="store_address" property="store_address" jdbcType="VARCHAR"/>
+	    <result column="store_createTime" property="store_createTime" jdbcType="TIMESTAMP"/>
+	    <result column="store_updateTime" property="store_updateTime" jdbcType="TIMESTAMP"/>
+   </resultMap>
+	
+	<!-- =========================================================== -->
+	<!-- 一些公共变量设置 -->
+	<!-- =========================================================== -->
+	<!-- 查询的所有列 -->
+	<sql id="Base_Column_List" >
+    	store_id,store_code,store_name,store_phone,store_address,store_createTime,store_updateTime
+  	</sql>
+	
+	<!-- 分页查询的公共变量 -->
+	<sql id="pagination_Tail">
+	<![CDATA[
+		limit #{pageCond.firstResult},#{pageCond.pageSize}
+	]]>
+	</sql>
+	
+	<!-- =========================================================== -->
+	<!-- CommonDao中的dao实现类 -->
+	<!-- =========================================================== -->
+	<!-- 根据主键查询实体类的方法 -->
+	<select id="findById" resultMap="storesResultMap"
+		parameterType="Long">
+		select <include refid="Base_Column_List"/>
+		from hair_stores
+		where store_id = #{store_id}
+	</select>
+	
+	<!-- 查询此实体表中所有数据的数量 -->
+	<select id="count" resultType="long">
+		select count(1) 
+		from hair_stores
+	</select>
+	
+	<!-- 实体的保存法方法 -->
+	<insert id="save" parameterType="hair_customers"  useGeneratedKeys="true" keyProperty="danju_id" >
+		insert into  hair_stores
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="danju_name!=null">
+				danju_name ,
+			</if>
+			<if test="danju_message!=null">
+				danju_message ,
+			</if>
+			<if test="danju_price!=null">
+				danju_price ,
+			</if>
+			<if test="danju_applicant!=null">
+				danju_applicant ,
+			</if>
+			<if test="danju_applicant_id!=null">
+				danju_applicant_id ,
+			</if>
+			<if test="danju_deal!=null">
+				danju_deal ,
+			</if>
+			<if test="danju_deal_code!=null">
+				danju_deal_code ,
+			</if>
+			<if test="danju_isConfirm!=null">
+				danju_isConfirm ,
+			</if>
+			<if test="danju_invalid!=null">
+				danju_invalid ,
+			</if>
+			<if test="danju_isVip!=null">
+				danju_isVip ,
+			</if>
+			<if test="danju_vipID!=null">
+				danju_vipID ,
+			</if>
+			<if test="danju_dealTime!=null">
+				danju_dealTime
+			</if>
+		</trim>
+		VALUES
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="danju_name!=null">
+				#{danju_name}	,
+			</if>
+			<if test="danju_message!=null">
+				#{danju_message}	,
+			</if>
+			<if test="danju_price!=null">
+				#{danju_price}	,
+			</if>
+			<if test="danju_applicant!=null">
+				#{danju_applicant} ,
+			</if>
+			<if test="danju_applicant_id!=null">
+				#{danju_applicant_id} ,
+			</if>
+			<if test="danju_deal!=null">
+				#{danju_deal} ,
+			</if>
+			<if test="danju_deal_code!=null">
+				#{danju_deal_code} ,
+			</if>
+			<if test="danju_isConfirm!=null">
+				#{danju_isConfirm}	,
+			</if>
+			<if test="danju_invalid!=null">
+				#{danju_invalid} ,
+			</if>
+			<if test="danju_isVip!=null">
+				#{danju_isVip} ,
+			</if>
+			<if test="danju_vipID!=null">
+				#{danju_vipID} ,
+			</if>
+			<if test="danju_dealTime!=null">
+				#{danju_dealTime}
+			</if>
+		</trim>
+	</insert>
+	
+	<!-- 实体的更新方法 -->
+	<update id="update" parameterType="hair_customers">
+		update hair_stores
+		<set>
+			<if test="danju_isConfirm!=null">
+				danju_isConfirm = #{danju_isConfirm},
+			</if>
+			<if test="danju_message!=null">
+				danju_message = #{danju_message},
+			</if>
+			<if test="danju_price!=null">
+				danju_applicant = #{danju_applicant},
+			</if>
+			<if test="danju_applicant!=null">
+				danju_applicant = #{danju_applicant},
+			</if>
+			<if test="danju_applicant_id!=null">
+				danju_applicant_id = #{danju_applicant_id},
+			</if>
+			<if test="roles!=null">
+				roles = #{roles},
+			</if>
+			<if test="updateTime!=null">
+				updateTime = #{updateTime},
+			</if>
+			<if test="realMoney!=null">
+				realMoney = #{realMoney},
+			</if>
+			<if test="integral!=null">
+				integral = #{integral},
+			</if>
+			<if test="salary!=null">
+				salary = #{salary},
+			</if>
+			<if test="jixiao!=null">
+				jixiao = #{jixiao},
+			</if>
+			<if test="storeID!=null">
+				storeID = #{storeID},
+			</if>
+			<if test="storeName!=null">
+				storeName = #{storeName},
+			</if>
+			<if test="idCard!=null">
+				idCard = #{idCard},
+			</if>
+			<if test="isVip!=null">
+				isVip = #{isVip},
+			</if>
+		</set>
+		where danju_id = #{danju_id}
+	</update>	
+	
+	<!-- 按照ID主键删除一条记录的功能 -->
+	<delete id="delete" parameterType="Integer">
+		delete from hair_stores
+		where store_id = #{store_id}
+	</delete>
+	
+	<!-- 根据参数查询分页查询所有的对象内容 -->
+	<select id="findByParams" resultMap="storesResultMap" >
+		 select <include refid="Base_Column_List"/>
+	     from hair_stores
+	     <!-- where userName=#{entity.userName} and passWord=#{entity.passWord} -->
+	</select>
+	<!-- 根据参数查询分页查询所有的对象内容 -->
+	<select id="findCountByParams" resultType="integer" >
+		select count(1)
+		from hair_stores
+		where 1=1
+	</select>
+</mapper>

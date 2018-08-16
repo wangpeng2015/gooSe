@@ -1,0 +1,21 @@
+package com.spring.mybatics.dao.goo;
+
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Param;
+
+import com.spring.mybatics.dao.CommonDAO;
+import com.spring.mybatics.domain.goo.Log;
+
+public interface Mp4DAO extends CommonDAO<Log,Integer>{
+
+	List<Map<String, String>> getMp4_category();
+
+	List<Map<String, String>> findMp4_data(@Param("type")String type);
+
+	List<Map<String, String>> findMp4Novel();
+
+	
+
+}

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.spring.mybatics.dao.goo.Mp4DAO" >
+
+	<select id="getMp4_category" resultType="java.util.Map">
+		SELECT m.name FROM  mp4_category m
+    </select>
+    
+    <select id="findMp4_data" parameterType="string" resultType="java.util.Map">
+		SELECT dd.category,dd.name,dd.img,dd.link FROM mp4_data dd where dd.category LIKE CONCAT(CONCAT('%',#{type},'%'))
+    </select>
+    
+    
+    <select id="findMp4Novel"  resultType="java.util.Map">
+		SELECT mm.name,mm.content FROM mp4_novel mm
+    </select>
+    
+    
+    
+
+</mapper>

@@ -1,0 +1,80 @@
+package com.spring.mybatics.service.impl.goo;
+
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import com.haier.result.ServiceResult;
+import com.spring.mybatics.dao.goo.Mp4DAO;
+import com.spring.mybatics.service.goo.Mp4Service;
+
+
+
+@Service("mp4Service")
+public class Mp4ServiceImpl implements Mp4Service{
+	
+	
+	@Resource
+	private Mp4DAO mp4DAO;
+
+	@Override
+	public ServiceResult getMp4_category() {
+		ServiceResult serviceResult=null;
+		try {
+			serviceResult=new ServiceResult();
+			List<Map<String, String>> mapList=mp4DAO.getMp4_category();
+			if(mapList!=null && mapList.size()>=0) {
+				serviceResult.setResultCode("200");
+				serviceResult.setResult(mapList);
+			}else {
+				serviceResult.setResultCode("300");
+				serviceResult.setResult(null);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return serviceResult;
+	}
+
+	@Override
+	public ServiceResult findMp4_data(String type) {
+		ServiceResult serviceResult=null;
+		try {
+			serviceResult=new ServiceResult();
+			List<Map<String, String>> mapList=mp4DAO.findMp4_data(type);
+			if(mapList!=null && mapList.size()>=0) {
+				serviceResult.setResultCode("200");
+				serviceResult.setResult(mapList);
+			}else {
+				serviceResult.setResultCode("300");
+				serviceResult.setResult(null);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return serviceResult;
+	}
+
+	@Override
+	public ServiceResult findMp4Novel() {
+		ServiceResult serviceResult=null;
+		try {
+			serviceResult=new ServiceResult();
+			List<Map<String, String>> mapList=mp4DAO.findMp4Novel();
+			if(mapList!=null && mapList.size()>=0) {
+				serviceResult.setResultCode("200");
+				serviceResult.setResult(mapList);
+			}else {
+				serviceResult.setResultCode("300");
+				serviceResult.setResult(null);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return serviceResult;
+	}
+
+}

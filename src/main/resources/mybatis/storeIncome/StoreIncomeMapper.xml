@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.spring.mybatics.dao.IStoreIncomeDao" >
+  
+  	
+	<!-- 订单金额汇总 -->
+	<update id="updateStore_actOrderMoney">
+		update hair_store_income
+		<set>
+			<if test="danju_price!=null">
+				store_actOrderMoney = store_actOrderMoney + #{danju_price}
+			</if>
+		</set>
+		where store_code = #{danju_storesCode}
+	</update>	
+	
+	<!-- 会员充值 -->
+	<update id="updateStore_actMoney">
+		update hair_store_income
+		<set>
+			<if test="money!=null">
+				store_actMoney = store_actMoney + #{money}
+			</if>
+		</set>
+		where  store_code = #{danju_storesCode}
+	</update>	
+	
+	<select id="getStoreIncomeByStoreCode" resultType="java.math.BigDecimal">
+		select store_actOrderMoney from hair_store_income
+		where
+		store_code = #{danju_storesCode} 
+	</select>
+</mapper>
