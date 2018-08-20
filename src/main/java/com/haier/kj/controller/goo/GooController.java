@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.haier.utils.XmlUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,9 @@ import com.haier.kj.controller.EmployeeController;
 import com.haier.result.ServiceResult;
 import com.spring.mybatics.service.goo.GooService;
 import com.spring.mybatics.util.SmsDemo;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 @Controller
@@ -129,6 +133,44 @@ public class GooController {
 	* @date 2018年1月20日 上午11:35:10
 	* @throws
 	 */
+//	@RequestMapping(value="/getYanZhengMa")
+//	@ResponseBody
+//	public Object getYanZhengMa(String phoneNumber,HttpServletRequest request){
+//		logger.info("--------------获取验证码---------------");
+//		ServiceResult serviceResult = new ServiceResult();
+//		if(StringUtils.isBlank(phoneNumber)  || phoneNumber.length()!=11){
+//			serviceResult.setMessage("电话信息为空或者格式有问题");
+//			serviceResult.setResultCode("300");
+//			return serviceResult;
+//		}
+//		//发短信
+//        SendSmsResponse response;
+//        HttpSession session=request.getSession();
+//		try {
+//			 //存session
+//        	int ran=(int)((Math.random()*9+1)*10000);
+//        	logger.info("验证码--"+phoneNumber+"--"+ran);
+//			response = SmsDemo.sendSms(phoneNumber,ran);
+//			logger.info("短信接口返回的数据----------------");
+//			logger.info("Code=" + response.getCode());
+//			logger.info("Message=" + response.getMessage());
+//			logger.info("RequestId=" + response.getRequestId());
+//			logger.info("BizId=" + response.getBizId());
+//	        //查明细
+//	        if(response.getCode() != null && response.getCode().equals("OK")) {
+//	            session.setAttribute(phoneNumber, ran);
+//	            logger.info(session.getId());
+//	        }
+//		} catch (Exception e) {
+//			logger.info("短信发送失败");
+//			logger.info(e.toString());
+//			serviceResult.setMessage("短信发送失败");
+//			serviceResult.setResultCode("400");
+//			return serviceResult;
+//		}
+//		return phoneNumber;
+//	}
+
 	@RequestMapping(value="/getYanZhengMa")
 	@ResponseBody
 	public Object getYanZhengMa(String phoneNumber,HttpServletRequest request){
@@ -140,39 +182,56 @@ public class GooController {
 			return serviceResult;
 		}
 		//发短信
-        SendSmsResponse response;
-        HttpSession session=request.getSession();
+		HttpSession session=request.getSession();
+
 		try {
-			 //存session
-        	int ran=(int)((Math.random()*9+1)*10000);
-        	logger.info("验证码--"+phoneNumber+"--"+ran);
-			response = SmsDemo.sendSms(phoneNumber,ran);
+			//存session
+			int ran=(int)((Math.random()*9+1)*10000);
+			logger.info("验证码--"+phoneNumber+"--"+ran);
+			Map<String, Object> paramMap = new HashMap<String, Object>();
+			paramMap.put("action", "send");
+			paramMap.put("userid", "426");
+			paramMap.put("account", "17199550092");
+			paramMap.put("password", "123456");
+			paramMap.put("mobile", phoneNumber.trim());
+			paramMap.put("content", "【小小播】验证码为:"+ran);
+			paramMap.put("sendTime", "");
+			paramMap.put("extno", "");
+//			response = SmsDemo.sendSms(phoneNumber,ran);
 			logger.info("短信接口返回的数据----------------");
-			logger.info("Code=" + response.getCode());
-			logger.info("Message=" + response.getMessage());
-			logger.info("RequestId=" + response.getRequestId());
-			logger.info("BizId=" + response.getBizId());
-	        //查明细
-	        if(response.getCode() != null && response.getCode().equals("OK")) {
-	            session.setAttribute(phoneNumber, ran);
-	            logger.info(session.getId());
-	        }
+			//查明细
+			String xml=HttpClient.doPostHp("http://47.105.104.185:8088/sms.aspx",paramMap);
+			/*返回状态值：成功返回Success 失败返回：Faild*/
+			String res=XmlUtil.getValueByNameXml(xml,"returnstatus");
+			if("Success".equals(res)){
+				session.setAttribute(phoneNumber, ran);
+			}else{
+				logger.info("短信发送失败");
+				serviceResult.setMessage("短信发送失败");
+				serviceResult.setResultCode("400");
+			}
+
 		} catch (Exception e) {
 			logger.info("短信发送失败");
 			logger.info(e.toString());
 			serviceResult.setMessage("短信发送失败");
 			serviceResult.setResultCode("400");
-			return serviceResult;
 		}
 		return phoneNumber;
 	}
+
+	public static void main(String[] args) throws  Exception {
+		String xml="<?xml version=\"1.0\" encoding=\"utf-8\" ?><returnsms><returnstatus>Success</returnstatus><message>message</message><remainpoint></remainpoint><taskID>taskID</taskID><successCounts>successCounts</successCounts></returnsms>";
+
+		String res=XmlUtil.getValueByNameXml(xml,"returnstatus");
+		System.out.println(res);
+	}
+
 	
 	
   /**
 	* 
 	* @Description:获取狼播信息  
-	* @param phoneNumber
-	* @param request
 	* @return
 	*
 	* @author wp
@@ -188,7 +247,7 @@ public class GooController {
 		return  serviceResult;
 	}
 	
-	public static void main(String[] args) throws Exception {
+	/*public static void main(String[] args) throws Exception {
 		//发短信
 		String phoneNumber="18300247760";
         SendSmsResponse response = SmsDemo.sendSms(phoneNumber,123);
@@ -222,7 +281,7 @@ public class GooController {
             System.out.println("TotalCount=" + querySendDetailsResponse.getTotalCount());
             System.out.println("RequestId=" + querySendDetailsResponse.getRequestId());
         }
-	}
+	}*/
 	
 	/**
 	 * 
@@ -358,8 +417,6 @@ public class GooController {
 	/**
 	 * 
 	* @Description: 版本升级
-	* @param request
-	* @param response
 	* @return
 	*
 	* @author wp

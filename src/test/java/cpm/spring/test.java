@@ -1,19 +1,15 @@
 package cpm.spring;
 
+import com.haier.utils.XmlUtil;
+
 public class test {
 	
-	public static void main(String[] args) {
-		
-		/*test t=new test();
-		try{
-			Object obj=t.getTest();
-		}catch (Exception e) {
-			System.out.println(e.getMessage());
-		}*/
-		
-//		System.out.println(obj);
-		int ran=(int)((Math.random()*9+1)*10000);
-    	System.out.println(ran);
+	public static void main(String[] args) throws  Exception{
+
+		String xml="<?xml version=\"1.0\" encoding=\"utf-8\" ?><returnsms><returnstatus>Faild</returnstatus><message>message</message><remainpoint></remainpoint><taskID>taskID</taskID><successCounts>successCounts</successCounts></returnsms>";
+
+		String res=XmlUtil.getValueByNameXml(xml,"returnstatus");
+		System.out.println(res);
 		
 	}
 
